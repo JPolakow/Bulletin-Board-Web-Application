@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <header>
+      <h1>Login</h1>
+    </header>
+    <div class="container">
+      <form (submit)="onlogin(loginform)" #loginform="ngForm">
+        <input
+          type="text"
+          ngModel
+          name="enteredusername"
+          placeholder="Username"
+          required
+          minlength="1"
+          pattern="^.+$"
+          #enteredusername="ngModel"
+        />
+        <div
+          *ngIf="
+            enteredusername.invalid &&
+            (enteredusername.dirty || enteredusername.touched)
+          "
+        >
+          invalid username or password
+        </div>
+        <br />
+        <input
+          type="password"
+          ngModel
+          name="enteredpassword"
+          placeholder="Password"
+          required
+          minlength="1"
+          pattern="^([a-zA-Z0-9@*#]{8,15})$"
+          #enteredpassword="ngModel"
+        />
+        <div
+          *ngIf="
+            enteredpassword.invalid &&
+            (enteredpassword.dirty || enteredpassword.touched)
+          "
+        >
+          invalid username or password
+        </div>
+        <br />
+        <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+        <button type="submit">Log In</button>
+      </form>
+    </div>
+  </body>
+</html>
+
+

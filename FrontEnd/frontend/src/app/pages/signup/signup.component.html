@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <header>
+      <h1>Sign Up</h1>
+    </header>
+    <div class="container">
+      <h2>Enter you details below</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+        <div class="form-group">
+          <label for="fname">First Name</label>
+          <input
+            type="text"
+            id="fname"
+            formControlName="fname"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="sname">Last Name</label>
+          <input
+            type="text"
+            id="sname"
+            formControlName="sname"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="error-message" *ngIf="hasError">{{ errorMessage }}</div>
+
+        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+      </form>
+    </div>
+  </body>
+</html>

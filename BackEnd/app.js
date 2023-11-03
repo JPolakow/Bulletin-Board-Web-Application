@@ -20,7 +20,7 @@ mongoose
   }, options);
 
 //Middleware
-app.use(cors({ origin: "https://localhost:3000", optionsSuccessStatus: 200 }));
+app.use(cors({ origin: "http://localhost:4200", optionsSuccessStatus: 200 }));
 app.use(express.json());
 app.use(hsts);
 
