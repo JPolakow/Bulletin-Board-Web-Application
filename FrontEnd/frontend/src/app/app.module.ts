@@ -45,3 +45,11 @@ import { ErrorInterceptorInterceptor } from './common/error-interceptor.intercep
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+// TO DO
+//brute force protection
+//input valdiation
+//input sanitation
+//password observication
+//implment helmet
+//implement morgan

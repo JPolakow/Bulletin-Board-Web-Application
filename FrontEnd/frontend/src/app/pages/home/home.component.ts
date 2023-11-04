@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   posts: any[] = [];
 
   constructor(
-    public postService: PostServiceService,
+    private postService: PostServiceService,
     private router: Router,
     private auth: AuthServiceService
   ) {}
@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.auth.isLoggedIn) {
-      this.router.navigate(['/login']);
       return;
     }
 
