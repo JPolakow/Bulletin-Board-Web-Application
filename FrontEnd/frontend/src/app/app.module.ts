@@ -12,6 +12,7 @@ import { AuthInterceptorInterceptor } from './common/auth-interceptor.intercepto
 import { ErrorComponent } from './pages/error/error.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorInterceptorInterceptor } from './common/error-interceptor.interceptor';
+import { PostComponent } from './pages/post/post.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ErrorInterceptorInterceptor } from './common/error-interceptor.intercep
     LoginComponent,
     SignupComponent,
     ErrorComponent,
+    PostComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,3 @@ import { ErrorInterceptorInterceptor } from './common/error-interceptor.intercep
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-// TO DO
-//input sanitation
-//confirm delete, use defualt alert
