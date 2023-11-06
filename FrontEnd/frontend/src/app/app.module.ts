@@ -47,9 +47,5 @@ import { ErrorInterceptorInterceptor } from './common/error-interceptor.intercep
 export class AppModule {}
 
 // TO DO
-//brute force protection
-//input valdiation
 //input sanitation
-//password observication
-//implment helmet
-//implement morgan
+//confirm delete, use defualt alert

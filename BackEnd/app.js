@@ -7,6 +7,8 @@ const cert = fs.readFileSync("keys/certificate.pem");
 const options = { server: { sslCA: cert } };
 const cors = require("cors");
 const hsts = require("./middleware/hsts");
+const helmet = require('helmet');
+const morgan = require('morgan');
 
 //connect to mongo db
 mongoose
@@ -23,6 +25,8 @@ mongoose
 app.use(cors({ origin: "http://localhost:4200", optionsSuccessStatus: 200 }));
 app.use(express.json());
 app.use(hsts);
+app.use(helmet());
+app.use(morgan('combined'));
 
 //Access control using headers
 app.use((req, res, next) => {

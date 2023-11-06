@@ -15,46 +15,33 @@
           type="text"
           ngModel
           name="enteredusername"
-          placeholder="Username"
           required
-          minlength="1"
-          pattern="^.+$"
           #enteredusername="ngModel"
         />
         <div
-          *ngIf="
-            enteredusername.invalid &&
-            (enteredusername.dirty || enteredusername.touched)
-          "
+        *ngIf="enteredusername.invalid && (enteredusername.dirty || enteredusername.touched)"
+          class="text-danger"
         >
-          invalid username or password
+          Username is required.
         </div>
         <br />
         <input
           type="password"
           ngModel
           name="enteredpassword"
-          placeholder="Password"
           required
-          minlength="1"
-          pattern="^([a-zA-Z0-9@*#]{8,15})$"
           #enteredpassword="ngModel"
         />
         <div
-          *ngIf="
-            enteredpassword.invalid &&
-            (enteredpassword.dirty || enteredpassword.touched)
-          "
+          *ngIf="enteredpassword.invalid && (enteredpassword.dirty || enteredpassword.touched)"
+          class="text-danger"
         >
-          invalid username or password
+          Confirm password is required.
         </div>
         <br />
-        <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
-
         <button type="submit">Log In</button>
+        <div *ngIf="hasError" class="text-danger">{{ errorMessage }}</div>
       </form>
     </div>
   </body>
 </html>
-
-

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { VerificationService } from 'src/app/services/verification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -10,8 +11,37 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  signupForm: FormGroup; // Create a FormGroup
-
+  fname = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^[A-Za-z\s'-]+$/),
+    Validators.minLength(3),
+  ]);
+  sname = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^[A-Za-z\s'-]+$/),
+    Validators.minLength(3),
+  ]);
+  username = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^[A-Za-z0-9_]{3,20}$/),
+    Validators.minLength(3),
+  ]);
+  email = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+    Validators.minLength(3),
+  ]);
+  password = new FormControl('', [
+    Validators.required,
+    Validators.pattern(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/
+    ),
+    Validators.minLength(3),
+  ]);
+  confirmpassword = new FormControl('', [
+    Validators.required,
+    Validators.minLength(3),
+  ]);
   hasError = false;
   errorMessage = '';
 
@@ -20,33 +50,39 @@ export class SignupComponent implements OnInit {
   constructor(
     private authService: AuthServiceService,
     private router: Router,
-    private http: HttpClient,
-    private formBuilder: FormBuilder // Inject FormBuilder
-  ) {
-    this.signupForm = this.formBuilder.group({
-      fname: ['', Validators.required],
-      sname: ['', Validators.required],
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-  }
+    private verify: VerificationService
+  ) {}
 
   onSignup() {
     this.hasError = false;
+    this.errorMessage = '';
 
-    if (this.signupForm.invalid) {
+    const fnameValue = this.fname.value;
+    const snameValue = this.sname.value;
+    const usernameValue = this.username.value;
+    const emailValue = this.email.value;
+    const passwordValue = this.password.value;
+    const confirmPasswordValue = this.confirmpassword.value;
+
+    if (
+      !fnameValue ||
+      !snameValue ||
+      !usernameValue ||
+      !emailValue ||
+      !passwordValue ||
+      !confirmPasswordValue
+    ) {
       this.hasError = true;
-      this.errorMessage = 'Please fill out all fields';
+      this.errorMessage = 'Please fill in all inputs';
       return;
     }
 
     const user = {
-      fname: this.signupForm.value.fname,
-      sname: this.signupForm.value.sname,
-      username: this.signupForm.value.username,
-      email: this.signupForm.value.email,
-      password: this.signupForm.value.password,
+      fname: fnameValue,
+      sname: snameValue,
+      username: usernameValue,
+      email: emailValue,
+      password: passwordValue,
     };
 
     this.authService.signup(user).subscribe(
@@ -58,9 +94,15 @@ export class SignupComponent implements OnInit {
           this.errorMessage = 'Unexpected response: ' + v;
         }
       },
-      (err) => {
+      (err: HttpErrorResponse) => {
+        console.log('Error Response:', err);
         this.hasError = true;
-        this.errorMessage = 'Error creating an account, please check your details';
+        try {
+          const errorObj = JSON.parse(err.error);
+          this.errorMessage = errorObj.error;
+        } catch (e) {
+          this.errorMessage = 'An unknown error occurred.';
+        }
       }
     );
   }

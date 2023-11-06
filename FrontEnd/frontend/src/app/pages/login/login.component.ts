@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { VerificationService } from 'src/app/services/verification.service';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +11,14 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  constructor(public authservice: AuthServiceService, private router: Router) {}
-
+  constructor(
+    public authservice: AuthServiceService,
+    private router: Router,
+    private verify: VerificationService
+  ) {}
   option: string = this.router.url;
-  errorMessage: string = '';
+  hasError = false;
+  errorMessage = '';
 
   ngOnInit(): void {
     this.authservice.errorMessage$.subscribe((message) => {
@@ -23,14 +27,17 @@ export class LoginComponent implements OnInit {
   }
 
   onlogin(loginform: NgForm) {
-    console.log('onlogin method is being called.');
+    this.hasError = false;
+    this.errorMessage = '';
 
-    if (loginform.invalid) {
-      console.log('onlogin is invalid.');
+    const username = loginform.value.enteredusername;
+    const password = loginform.value.enteredpassword;
+
+    if (!username || !password) {
+      this.hasError = true;
+      this.errorMessage = 'Please fill in all inputs';
       return;
     }
-
-    this.errorMessage = '';
 
     if (this.option == '/login') {
       this.authservice
@@ -41,13 +48,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/home']);
           },
           (error: HttpErrorResponse) => {
-            if (error.status === 401) {
-              // Handle the 401 Unauthorized error by displaying an error message
-              this.errorMessage = 'Incorrect username and password.';
-            } else {
-              // Handle other error cases
-              this.errorMessage = 'An unknown error has occurred.';
-            }
+            this.errorMessage = 'Incorrect username or password.';
+            this.hasError = true;
           }
         );
     }

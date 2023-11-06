@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpErrorResponse,
+} from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { catchError } from 'rxjs/operators';
 import { ErrorComponent } from '../pages/error/error.component';
 
 @Injectable()
@@ -12,12 +18,16 @@ export class ErrorInterceptorInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'An unknown error occurred.';
-        
-        if (error.error && error.error.error) {
-          errorMessage = error.error.error; // Adjust this to match your server's error structure
+        if (this.suppressCertainErrors(error)) {
+          return throwError(error);
         }
-        
+
+        let errorMessage = 'An unknown error occurred.';
+
+        if (error.error && error.error.error) {
+          errorMessage = error.error.error;
+        }
+
         this.openErrorDialog(errorMessage);
         throw error;
       })
@@ -30,5 +40,14 @@ export class ErrorInterceptorInterceptor implements HttpInterceptor {
         message: errorMessage
       }
     });
+  }
+
+  private suppressCertainErrors(error: HttpErrorResponse): boolean {
+    const errorObj = JSON.parse(error.error);
+          
+    if (errorObj.error === 'The username or password is not valid') {
+      return true; 
+    }
+    return false; 
   }
 }

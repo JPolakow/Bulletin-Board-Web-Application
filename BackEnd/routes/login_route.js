@@ -3,9 +3,16 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { User } = require("../models/user_model");
 const { isValidPassword } = require("../utils/hash");
+const ExpressBrute = require('express-brute');
+
+// Express brute
+const store = new ExpressBrute.MemoryStore();
+const bruteforce = new ExpressBrute(store, {
+  freeRetries: 3,
+});
 
 //Login
-router.post("/", async (req, res) => {
+router.post("/", bruteforce.prevent, async (req, res) => {
   const { username, password } = req.body;
 
   //Checks if username and password are provided
