@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { VerificationService } from 'src/app/services/verification.service';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +12,7 @@ import { VerificationService } from 'src/app/services/verification.service';
 export class LoginComponent implements OnInit {
   constructor(
     public authservice: AuthServiceService,
-    private router: Router,
-    private verify: VerificationService
+    private router: Router
   ) {}
   option: string = this.router.url;
   hasError = false;

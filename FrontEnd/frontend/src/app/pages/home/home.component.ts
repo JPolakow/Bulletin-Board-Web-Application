@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PostServiceService } from '../../services/post-service.service';
 import { Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
-import { VerificationService } from 'src/app/services/verification.service';
 
 @Component({
   selector: 'app-home',
@@ -13,17 +12,17 @@ import { VerificationService } from 'src/app/services/verification.service';
 export class HomeComponent implements OnInit {
   title = new FormControl('', [
     Validators.required,
-    Validators.pattern(/^[A-Za-z0-9_()\[\]]{3,20}$/),
+    Validators.pattern(/^[A-Za-z0-9_()\[\]]*$/),
     Validators.minLength(3),
   ]);
   content = new FormControl('', [
     Validators.required,
-    Validators.pattern(/^[A-Za-z0-9_()\[\]]{3,20}$/),
+    Validators.pattern(/^[A-Za-z0-9_()\[\]]*$/),
     Validators.minLength(3),
   ]);
   departmentCode = new FormControl('', [
     Validators.required,
-    Validators.pattern(/^[A-Za-z0-9_()\[\]]{3,20}$/),
+    Validators.pattern(/^[A-Za-z0-9_()\[\]]*$/),
     Validators.minLength(3),
   ]);
   hasError = false;
@@ -33,8 +32,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private postService: PostServiceService,
     private router: Router,
-    private auth: AuthServiceService,
-    private verify: VerificationService
+    private auth: AuthServiceService
   ) {}
 
   ngOnInit(): void {
@@ -63,18 +61,6 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    const status = this.verify.validateAddPost(
-      titleValue,
-      contentValue,
-      departmentCodeValue
-    );
-
-    if (status != 'good') {
-      this.hasError = true;
-      this.errorMessage = status;
-      return;
-    }
-
     this.postService
       .addPost_Service(titleValue, contentValue, departmentCodeValue)
       .subscribe({
@@ -93,11 +79,14 @@ export class HomeComponent implements OnInit {
   }
 
   onDeletePost(id: string) {
-    this.postService.deletePost_Service(id).subscribe({
-      next: (v) => console.log(v),
-      error: (e) => console.log(e),
-    });
-    const filtered = this.posts.filter((post) => post._id !== id);
-    this.posts = filtered;
+    if (confirm('Are you sure you want to delete this post?')) {
+      this.postService.deletePost_Service(id).subscribe({
+        next: (v) => console.log(v),
+        error: (e) => console.log(e),
+      });
+      const filtered = this.posts.filter((post) => post._id !== id);
+      this.posts = filtered;
+      console.log('Post deleted:', id);
+    }
   }
 }

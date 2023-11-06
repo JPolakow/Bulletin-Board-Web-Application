@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { Router } from '@angular/router';
-import { VerificationService } from 'src/app/services/verification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -49,8 +48,7 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private authService: AuthServiceService,
-    private router: Router,
-    private verify: VerificationService
+    private router: Router
   ) {}
 
   onSignup() {
