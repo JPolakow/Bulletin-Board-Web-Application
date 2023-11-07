@@ -116,6 +116,7 @@
         <div class="form-group">
           <label for="password">Password</label>
           <input
+            type="password"
             id="password"
             [formControl]="password"
             class="form-control"
@@ -147,12 +148,21 @@
           />
           <small
             class="text danger"
-            *ngIf="confirmpassword.invalid && (confirmpassword.dirty || confirmpassword.touched)"
+            *ngIf="
+              confirmpassword.invalid &&
+              (confirmpassword.dirty || confirmpassword.touched)
+            "
           >
-            <div *ngIf="confirmpassword.hasError('required')" class="text-danger">
+            <div
+              *ngIf="confirmpassword.hasError('required')"
+              class="text-danger"
+            >
               Confirm password is required
             </div>
-            <div *ngIf="confirmpassword.hasError('minlength')" class="text-danger">
+            <div
+              *ngIf="confirmpassword.hasError('minlength')"
+              class="text-danger"
+            >
               Confirm password must be longer than 3 characters
             </div>
           </small>

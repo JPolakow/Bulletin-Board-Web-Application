@@ -12,17 +12,17 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 export class PostComponent implements OnInit {
   title = new FormControl('', [
     Validators.required,
-    Validators.pattern(/^[A-Za-z0-9_()\[\]]*$/),
+    Validators.pattern(/^[A-Za-z0-9_ ()\[\]]*$/),
     Validators.minLength(3),
   ]);
   content = new FormControl('', [
     Validators.required,
-    Validators.pattern(/^[A-Za-z0-9_()\[\]]*$/),
+    Validators.pattern(/^[A-Za-z0-9_ ()\[\]]*$/),
     Validators.minLength(3),
   ]);
   departmentCode = new FormControl('', [
     Validators.required,
-    Validators.pattern(/^[A-Za-z0-9_()\[\]]*$/),
+    Validators.pattern(/^[A-Za-z0-9_ ()\[\]]*$/),
     Validators.minLength(3),
   ]);
   hasError = false;

@@ -75,6 +75,12 @@ export class SignupComponent implements OnInit {
       return;
     }
 
+    if (passwordValue != confirmPasswordValue) {
+      this.hasError = true;
+      this.errorMessage = 'Passwords must match';
+      return;
+    }
+
     const user = {
       fname: fnameValue,
       sname: snameValue,
