@@ -20,12 +20,26 @@
           <div *ngFor="let post of posts" class="mb-2">
             <div class="card">
               <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <h5 class="card-title">{{ post.title }}</h5>
-                  <small class="text-muted">{{ post.departmentCode }}</small>
-                </div>
+                <h5 class="card-title">{{ post.title }}</h5>
                 <p class="card-text">{{ post.content }}</p>
-                <button class="btn btn-danger" (click)="onDeletePost(post._id)">
+                <div>
+                  <small class="text-muted"
+                    >Date Posted: {{ formatDate(post.datePosted) }}</small
+                  >
+                </div>
+                <div>
+                  <small class="text-muted">Author: {{ post.author }}</small>
+                </div>
+                <div>
+                  <small class="text-muted"
+                    >Department: {{ post.departmentCode }}</small
+                  >
+                </div>
+                <div class="small-br"></div>
+                <button
+                  class="btn btn-danger"
+                  (click)="onDeletePost(post._id, post.author)"
+                >
                   Delete
                 </button>
               </div>

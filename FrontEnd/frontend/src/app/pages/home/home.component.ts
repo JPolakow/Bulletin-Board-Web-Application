@@ -47,46 +47,34 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onAddPost() {
-    this.hasError = false;
-    this.errorMessage = '';
-
-    const titleValue = this.title.value;
-    const contentValue = this.content.value;
-    const departmentCodeValue = this.departmentCode.value;
-
-    if (!titleValue || !contentValue || !departmentCodeValue) {
-      this.hasError = true;
-      this.errorMessage = 'Please fill in all inputs';
-      return;
-    }
-
-    this.postService
-      .addPost_Service(titleValue, contentValue, departmentCodeValue)
-      .subscribe({
-        next: (v) => {
-          this.posts.push(v);
-          this.title.setValue('');
-          this.content.setValue('');
-          this.departmentCode.setValue('');
-        },
-        error: (e) => {
-          this.hasError = true;
-          this.errorMessage = e.message;
-          console.log(e);
-        },
-      });
+  formatDate(dateString: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options);
   }
 
-  onDeletePost(id: string) {
-    if (confirm('Are you sure you want to delete this post?')) {
-      this.postService.deletePost_Service(id).subscribe({
-        next: (v) => console.log(v),
-        error: (e) => console.log(e),
-      });
-      const filtered = this.posts.filter((post) => post._id !== id);
-      this.posts = filtered;
-      console.log('Post deleted:', id);
+  onDeletePost(id: string, author: string) {
+    const currentUsername = this.auth.getUsername();
+
+    if (currentUsername === author) {
+      if (confirm('Are you sure you want to delete this post?')) {
+        this.postService.deletePost_Service(id).subscribe({
+          next: (v) => {
+            console.log(v);
+
+            const filtered = this.posts.filter((post) => post._id !== id);
+            this.posts = filtered;
+            console.log('Post deleted:', id);
+          },
+          error: (e) => console.log(e),
+        });
+      }
+    } else {
+      alert('You are not the author of this post and cannot delete it.');
     }
   }
 }

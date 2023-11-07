@@ -31,6 +31,7 @@ export class AuthServiceService {
             this.token = response.token;
             // Store the token in local storage
             localStorage.setItem('x-auth-token', this.token);
+            localStorage.setItem('username', userusername);
           }
         }),
         catchError((error: HttpErrorResponse) => {
@@ -47,10 +48,17 @@ export class AuthServiceService {
 
   logout(): void {
     localStorage.removeItem('x-auth-token');
+    localStorage.removeItem('username');
   }
 
   getToken() {
     this.token = localStorage.getItem('x-auth-token') || '';
     return this.token;
   }
+
+  getUsername() {
+    const username = localStorage.getItem('username') || '';
+    return username;
+  }
 }
+

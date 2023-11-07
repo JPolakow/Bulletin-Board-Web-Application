@@ -7,6 +7,7 @@ const PostSchema = mongoose.Schema(
         content: {type: String, reqire:true},
         datePosted: {type: String},
         departmentCode: {type: String, reqire:true},
+        author: {type: String, reqire:true},
     }
 )
 
@@ -18,6 +19,7 @@ function validatePost(post){
         content: Joi.string().min(3).max(1000).required(),
         datePosted: Joi.string().min(3).max(10),
         departmentCode: Joi.string().min(3).max(50).required(),
+        author: Joi.string().min(3).max(100).required(),
     });
     return schema.validate(post) 
 }

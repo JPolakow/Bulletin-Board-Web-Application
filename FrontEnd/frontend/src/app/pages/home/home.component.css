@@ -77,3 +77,10 @@ tr:nth-child(even) {
 tr:hover {
   background-color: #ddd;
 }
+
+.small-br {
+  display: block;
+  content: "";
+  height: 0.7em; /* Adjust the height as needed */
+  clear: both;
+}

@@ -7,9 +7,9 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.css'],
 })
-export class PostComponent implements OnInit{
+export class PostComponent implements OnInit {
   title = new FormControl('', [
     Validators.required,
     Validators.pattern(/^[A-Za-z0-9_()\[\]]*$/),
@@ -62,7 +62,12 @@ export class PostComponent implements OnInit{
     }
 
     this.postService
-      .addPost_Service(titleValue, contentValue, departmentCodeValue)
+      .addPost_Service(
+        titleValue,
+        contentValue,
+        departmentCodeValue,
+        this.auth.getUsername()
+      )
       .subscribe({
         next: (v) => {
           this.posts.push(v);
