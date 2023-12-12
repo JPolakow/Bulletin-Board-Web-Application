@@ -12,6 +12,7 @@ export class AuthServiceService {
 
   constructor(private http: HttpClient) {}
 
+  //method used ot send the data to the backend to sign up
   signup(user: any): Observable<string> {
     console.log('auth signup called.');
     return this.http.post('https://localhost:3000/api/signup/', user, {
@@ -19,6 +20,7 @@ export class AuthServiceService {
     });
   }
 
+  //send user details to backend to try login, if successful save the token to localstorage
   login(userusername: string, userpassword: string) : Observable<any> {
     return this.http
       .post('https://localhost:3000/api/login', {
@@ -41,21 +43,25 @@ export class AuthServiceService {
       );
   }
 
+  //method used to check if there is a token in local storage, returns true or false
   get isLoggedIn(): boolean {
     const token = localStorage.getItem('x-auth-token');
     return token ? true : false;
   }
 
+  //logout
   logout(): void {
     localStorage.removeItem('x-auth-token');
     localStorage.removeItem('username');
   }
 
+  //method used to return the token in local storage
   getToken() {
     this.token = localStorage.getItem('x-auth-token') || '';
     return this.token;
   }
 
+   //method used to return the username in local storage
   getUsername() {
     const username = localStorage.getItem('username') || '';
     return username;
