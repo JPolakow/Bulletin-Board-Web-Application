@@ -7,10 +7,12 @@ import { HttpClient } from '@angular/common/http';
 export class PostServiceService {
   constructor(private http: HttpClient) {}
 
+  //get posts from the backend
   getPost_Service() {
     return this.http.get('https://localhost:3000/api/posts/');
   }
 
+  //add a new post
   addPost_Service(
     title: string,
     content: string,
@@ -25,6 +27,7 @@ export class PostServiceService {
     });
   }
 
+  //delete a post
   deletePost_Service(postId: string) {
     return this.http.delete('https://localhost:3000/api/posts/' + postId);
   }
