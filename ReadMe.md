@@ -8,7 +8,11 @@ Part 2 was the backend Node.JS, this includes the routing, models, middleware, a
 
 ## Application Framework
 
-This web application was made using Node.JS and Angular. It intergrated with MongoDB to save the data and the users.
+This web application was made using Node.JS and Angular. It integrated with MongoDB to save the data and the users.
+
+The frontend also used BootStrap for a more reactive and visually appealing frontend.
+
+The certificate was generated using OpenSSL light 3.1.2.
 
 ## About the applicaiton
 
