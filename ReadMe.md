@@ -2,7 +2,7 @@
 
 This repository is my final POE submission for the module, it contains the code from part 2 and part 3.
 
-Part 2 was the backend Node.JS, this includes the routing, models, middleware, auth and MongoDB database interactions.Part 3 was the frontend Angular, this included the input validation, user interface, and services to interact with the backend.
+Part 2 was the backend Node.JS, this includes the routing, models, middleware, auth and MongoDB database interactions. Part 3 was the frontend Angular, this included the input validation, user interface, and services to interact with the backend.
 
 **Important Note:** If you with to run this code you will need to add a MongoDB URl to the .env file in the backend folder.
 
